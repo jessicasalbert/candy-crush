@@ -1,11 +1,19 @@
 .grid {
-    height: 560px;
-    width: 560px;
+    height: 480px;
+    width: 480px;
     display: flex;
     flex-wrap: wrap;
+    background-color: lightblue;
+    border-radius: 5%;
+    padding: 5px;
+    margin: auto
 }
 
 .grid div {
-    height: 70px;
-    width: 70px;
+    height: 60px;
+    width: 60px;
+}
+
+body {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url(https://dcb-website.s3.us-east-2.amazonaws.com/DCB+Wallpapers/Desktop/DylansCandyBar-DesktopWallpaper-CandySpill.jpg);
 }
