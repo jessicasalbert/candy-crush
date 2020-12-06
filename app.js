@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const width = 8
     const squares = []
     let score = 0
+    const scoreDiv = document.getElementById("score")
 
     const candyColors = ['red', 'yellow', 'orange', 'purple', 'green', 'blue']
 
@@ -72,20 +73,100 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     
+    
+
+    window.setInterval(() => {
+        dropCandies()
+        checkForFour()
+        checkForFourCol()
+        checkForThree()
+        checkForThreeCol()
+        dropCandies()
+    }, 100)
+    
+    function dropCandies() {
+        for (let i = 0; i < 56; i++ ) {
+            if (squares[i + width].style.backgroundColor === "") {
+                squares[i + width].style.backgroundColor = squares[i].style.backgroundColor
+                squares[i].style.backgroundColor = ""
+                
+            }
+            const firstRow = [0, 1, 2, 3, 4, 5, 6, 7]
+            if (firstRow.includes(i) && squares[i].style.backgroundColor === "") {
+                squares[i].style.backgroundColor = candyColors[Math.floor(Math.random() * candyColors.length)]
+            }
+        }
+    }
+
     function checkForThree() {
-        for (i = 0; i < 61; i++) {
+        for (i = 0; i < 62; i++) {
             let row = [i, i + 1, i + 2]
             color = squares[i].style.backgroundColor
             const isBlank = squares[i].style.backgroundColor === ''
     
+            const notValid = [6, 7, 14, 15, 22, 23, 30, 31, 38, 39, 46, 47, 54, 55]
+            if (notValid.includes(i)) continue 
+
             if (row.every( i => squares[i].style.backgroundColor === color && !isBlank)) {
                 score += 3
+                scoreDiv.innerHTML = score
                 row.forEach( i => {
                     squares[i].style.backgroundColor = ""
                 })
             }
         }
     }
+
+    function checkForFour() {
+        for (i = 0; i < 60; i++) {
+            let row = [i, i + 1, i + 2, i + 3]
+            color = squares[i].style.backgroundColor
+            const isBlank = squares[i].style.backgroundColor === ''
     
-    checkForThree()
+            const notValid = [5, 6, 7, 13, 14, 15, 21, 22, 23, 29, 30, 31, 37, 38, 39, 45, 46, 47, 53,54, 55]
+            if (notValid.includes(i)) continue 
+            
+            if (row.every( i => squares[i].style.backgroundColor === color && !isBlank)) {
+                score += 4
+                scoreDiv.innerHTML = score
+                row.forEach( i => {
+                    squares[i].style.backgroundColor = ""
+                })
+            }
+        }
+    }
+
+    function checkForFourCol() {
+        for (i = 0; i < 39; i++) {
+            let col = [i, i + width, i + (2 * width), i + (3 * width)]
+            color = squares[i].style.backgroundColor
+            const isBlank = squares[i].style.backgroundColor === ''
+    
+            if (col.every( i => squares[i].style.backgroundColor === color && !isBlank)) {
+                score += 4
+                scoreDiv.innerHTML = score
+                col.forEach( i => {
+                    squares[i].style.backgroundColor = ""
+                })
+            }
+        }
+    }
+
+    function checkForThreeCol() {
+        for (i = 0; i < 48; i++) {
+            let col = [i, i + width, i + (2 * width)]
+            color = squares[i].style.backgroundColor
+            const isBlank = squares[i].style.backgroundColor === ''
+    
+            if (col.every( i => squares[i].style.backgroundColor === color && !isBlank)) {
+                score += 3
+                scoreDiv.innerHTML = score
+                col.forEach( i => {
+                    squares[i].style.backgroundColor = ""
+                })
+            }
+        }
+    }
+    
+    
 })
