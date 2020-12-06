@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const grid = document.querySelector(".grid")
     const width = 8
     const squares = []
+    let score = 0
 
     const candyColors = ['red', 'yellow', 'orange', 'purple', 'green', 'blue']
 
@@ -33,30 +34,58 @@ document.addEventListener('DOMContentLoaded', () => {
     function dragStart() {
         colorDragged = this.style.backgroundColor
         idDragged = parseInt(this.id)
-        console.log(colorDragged)
     }
 
     function dragEnd() {
-        console.log(this.id, "end")
+        let valid = false;
+        if (Math.abs(idDragged - idReplaced) === width) {
+            valid = true;
+        } else if (Math.abs(idDragged - idReplaced) === 1) {
+            valid = true;
+        }
+        if (idReplaced && valid) {
+            idReplaced = null
+        } else if (idReplaced && !valid) {
+            squares[idReplaced].style.backgroundColor = colorReplaced
+            squares[idDragged].style.backgroundColor = colorDragged
+        } else {
+            squares[idDragged].style.backgroundColor = colorDragged
+        }
     }
 
     function dragOver(e) {
         e.preventDefault()
-        console.log(this.id, "over")
     }
     
     function dragEnter(e) {
         e.preventDefault()
-        console.log(this.id, "enter")
     }
 
     function dragLeave() {
-        console.log(this.id, "leave")
     }
 
     function dragDrop() {
         colorReplaced = this.style.backgroundColor
         idReplaced = parseInt(this.id)
         squares[idDragged].style.backgroundColor = colorReplaced
+        squares[idReplaced].style.backgroundColor = colorDragged
     }
+
+    
+    function checkForThree() {
+        for (i = 0; i < 61; i++) {
+            let row = [i, i + 1, i + 2]
+            color = squares[i].style.backgroundColor
+            const isBlank = squares[i].style.backgroundColor === ''
+    
+            if (row.every( i => squares[i].style.backgroundColor === color && !isBlank)) {
+                score += 3
+                row.forEach( i => {
+                    squares[i].style.backgroundColor = ""
+                })
+            }
+        }
+    }
+    
+    checkForThree()
 })
