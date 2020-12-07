@@ -79,17 +79,29 @@ document.addEventListener('DOMContentLoaded', () => {
         squares[idReplaced].style.backgroundImage = colorDragged
     }
 
+    const start = document.getElementById("start")
+    const stop = document.getElementById("stop")
+
     
+    let interval; 
+
+    start.addEventListener("click", () => {
+        interval = window.setInterval(() => {
+            console.log('hi')
+            dropCandies()
+            checkForFour()
+            checkForFourCol()
+            checkForThree()
+            checkForThreeCol()
+            dropCandies()
+        }, 100)
+    })
+
+    stop.addEventListener("click", () => {
+        clearInterval(interval)
+    })
     
 
-    window.setInterval(() => {
-        dropCandies()
-        checkForFour()
-        checkForFourCol()
-        checkForThree()
-        checkForThreeCol()
-        dropCandies()
-    }, 100)
     
     function dropCandies() {
         for (let i = 0; i < 56; i++ ) {
